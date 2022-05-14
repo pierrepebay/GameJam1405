@@ -20,6 +20,3 @@ $(EXEC):$(OBJ)
 clean:
 	rm -rf *.o
 	rm -rf $(EXEC)
-
-
-
