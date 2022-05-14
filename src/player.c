@@ -1,10 +1,10 @@
 #include "player.h"
 
 
-void initPlayer(x, y)
+void initPlayer(float x, float y)
 {
-  player_t* player = (plie_t*)malloc(sizeof(player_t));
-  if(!player_t)
+  player_t* player = (player_t*)malloc(sizeof(player_t));
+  if(!player)
   {
     printf("Player initalization failed.\n");
     exit(ALLOCATION_FAILURE);
