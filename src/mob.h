@@ -36,11 +36,14 @@ typedef struct mob{
     int isTakingDmg;
 }mob_t;
 
-mob_t * mobsList[MAX_MOB_N];
+extern mob_t * mobsList[MAX_MOB_N];
 
 mob_t * initMob(float x, float y);
-void initMobs(int n);
+void initMobs();
 void moveMobs(player_t * player);
+int moveMob(mob_t * curMob);
 void updateMobsState();
+
+extern int nbMobs;
 
 #endif

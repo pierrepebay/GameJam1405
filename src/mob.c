@@ -1,6 +1,9 @@
 #include "mob.h"
 
 mob_t * mob;
+mob_t * mobsList[MAX_MOB_N];
+
+int nbMobs = 10;
 
 mob_t * initMob(float x, float y) {
   mob_t * mob = (mob_t*)malloc(sizeof(mob_t));
@@ -30,61 +33,51 @@ mob_t * initMob(float x, float y) {
   return mob;
 }
 
-void initMobs(int n) {
+void initMobs() {
   for(int k = 0; k < MAX_MOB_N; k++) {
     mobsList[k] = NULL;
   }
-  for(int i = 0; i < n; i++) {
-    mobsList[i] = initMob(rand() % MAP_W, rand() % MAP_H);
+  for(int i = 0; i < nbMobs; i++) {
+    mobsList[i] = initMob(20, 10);
   }
 }
 
 void moveMobs(player_t * player) {
-  int i = 0;
-  mob_t * curMob;
-  while(curMob != NULL) {
-    curMob = mobsList[i];
-    if(curMob->isAttacking) {
-      if(curMob->isCharging) {
-        curMob->xSpeed = 0.0002 * (player->x - curMob->x) / fabs(player->x - curMob->x);
-      }
-      else {
-        curMob->xSpeed = 0.00002 * (player->x - curMob->x) / fabs(player->x - curMob->x);
-      }
-    }
-    else {
-      int r = rand() % 100; // Change mob movement 1 in 100 times
-      if(r == 1) {
-        switch (curMob->direction) {
-          case 0:
-            curMob->direction = 1;
-            curMob->xSpeed = 0.00002;
-            break;
-          case 1:
-            curMob->direction = 0;
-            curMob->xSpeed = -0.00002;
-            break;
+    for (int i = 0; i < nbMobs; i++){
+        mob_t * curMob = mobsList[i];
+        if ((player->x - curMob->x) < 0) {
+            curMob->direction = -1;
         }
-      }
+        else {
+            curMob->direction = 1;
+        }
+        if(curMob->isAttacking) {
+            if(curMob->isCharging) {
+                curMob->xSpeed += 0.008 * curMob->direction;
+            }
+            else {
+                curMob->xSpeed += 0.0002 * curMob->direction;
+            }
+        }
+        curMob->x += curMob->xSpeed;
+        printf("mob x: %f\n", curMob->x);
     }
-    i++;
-  }
 }
 
 void updateMobsState() {
-  int i = 0;
-  mob_t * curMob;
-  while(curMob != NULL) {
-    curMob = mobsList[i];
-    if(sqrt((curMob->x - player->x) * (curMob->x - player->x) + (curMob->y - player->y) * (curMob->y - player->y)) < 100) {
-      if(sqrt((curMob->x - player->x) * (curMob->x - player->x) + (curMob->y - player->y) * (curMob->y - player->y)) < 30) {
-        curMob->isCharging = 1;
-      }
-      curMob->isAttacking = 1;
-    }
-    else {
-      curMob->isAttacking = 0;
-    }
-    i++;
-  }
+    for (int i = 0; i < nbMobs; i++){
+        mob_t * curMob = mobsList[i];
+        if(fabs((curMob->x - player->x) ) < 4) {
+            if(fabs((curMob->x - player->x) ) < 3) 
+            {
+                curMob->isCharging = 1;
+            }
+            curMob->isAttacking = 1;
+        }
+        
+        else {
+            curMob->isAttacking = 0;
+            curMob->xSpeed = 0;
+        }  
+    }          
 }

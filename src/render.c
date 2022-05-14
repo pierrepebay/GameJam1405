@@ -112,11 +112,27 @@ void DrawBackground(){
     SDL_RenderFillRect(renderer, &rect);
 }
 
+void DrawEnnemies(mob_t * Ennemy){
+    int tick = SDL_GetTicks()/500;
+    SDL_Rect rect;
+    rect.w = player->w * TILE_SIZE * 4;
+    rect.h = player->h * TILE_SIZE * 4;
+    rect.x = WindowWidth/2 - rect.w/2 + (Ennemy->x - player->x) * MAP_W;
+    rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * TILE_SIZE/3;
+    // fill rectangle with red
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    // draw filled rectangle
+    SDL_RenderCopy(renderer, blockTexture, NULL, &rect);
+
+}
+
 
 void AffichageNormal(){
     DrawBackground();
     DrawMap();
     drawPlayer();
+    DrawEnnemies(mobsList[0]);
+    DrawEnnemies(mobsList[1]);
     SDL_RenderPresent(renderer);
 }
 
@@ -168,6 +184,8 @@ void MainDrawLoop(){
         delta += a - b;
         if (delta > 1000/60.0){
             PlayerMoveY();
+            moveMobs(player);
+            updateMobsState(); 
             switch (GameOption)
             {
             case 0:

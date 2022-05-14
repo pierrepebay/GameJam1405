@@ -12,6 +12,7 @@ int main(){
 
     initMap();
     //printMap();
-    player = initPlayer(20, 10);
+    player = initPlayer(10, 10);
+    initMobs();
     MainDrawLoop();
 }

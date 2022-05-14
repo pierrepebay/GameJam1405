@@ -91,6 +91,10 @@ int playerMoveX(){
       int signe = 1;
       
       player->xSpeed *= 0.8;
+
+      if (!player->isGrounded){
+        player->xSpeed *= 0.5;
+      }
       break;
 
     case 1: // left side collided

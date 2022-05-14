@@ -8,8 +8,8 @@
 #define PLAYER_MAX_SPEED_Y 0.000002
 
 #define PLAYER_MAX_ACCEL_X 1
-#define GRAVITY 0.003
-#define JUMP 0.1
+#define GRAVITY 0.005
+#define JUMP 0.12
 #define FRICTION 0.000001
 
 #include <stdio.h>

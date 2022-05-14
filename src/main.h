@@ -6,6 +6,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "render.h"
+#include "mob.h"
 
 
 extern int isRunning;

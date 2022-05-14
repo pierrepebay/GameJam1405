@@ -5,6 +5,7 @@
 #include "map.h"
 #include "player.h"
 #include "gest_event.h"
+#include "mob.h"
 
 // include pthread
 #include <pthread.h>
