@@ -11,7 +11,7 @@ int main(){
     GameOption = 0;
 
     initMap();
-    printMap();
+    //printMap();
     player = initPlayer(20, 10);
     MainDrawLoop();
 }

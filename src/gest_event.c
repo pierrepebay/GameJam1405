@@ -13,11 +13,9 @@ void * gestInput(){
             {
                 case SDLK_z:
                     Keys[0] = 1;
-                    printf("pressed z\n");
                     break;
 
                 case SDLK_d:
-                    printf("player pos: %f, %f\n", player->x, player->y);
                     Keys[1] = 1;
                     break;
 

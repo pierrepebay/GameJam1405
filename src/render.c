@@ -6,6 +6,9 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture* blockTexture;
 SDL_Surface * blockSurface;
 
+SDL_Surface * spriteSurface[25];
+SDL_Texture * spriteTexture[25];
+
 int WindowWidth = 1520;
 int WindowHeight = 800;
 
@@ -85,16 +88,16 @@ void DrawMap(){
 
 void drawPlayer(){
     SDL_Rect rect;
-    rect.w = player->w;
-    rect.h = player->h;
+    rect.w = player->w * TILE_SIZE * 4;
+    rect.h = player->h * TILE_SIZE * 4;
     // player is centered on screen
     rect.x = WindowWidth/2 - rect.w/2;
     rect.y = WindowHeight/2 - rect.h/2;
+    // draw player
 
-    // fill rectangle with red
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-    // draw filled rectangle
-    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_RenderCopy(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect);
+    
 }
 
 void DrawBackground(){
@@ -122,6 +125,7 @@ void * BoucleGestInput(void * arg){
     while (isRunning)
     {
         gestInput();
+        gestPhysique();
     }
     return NULL;
 }
@@ -133,6 +137,24 @@ void MainDrawLoop(){
     blockSurface = IMG_Load("../ground_1_true.png");
     blockTexture = SDL_CreateTextureFromSurface(renderer, blockSurface);
     SDL_FreeSurface(blockSurface);
+
+    for (int i = 0; i < 10; i++)
+    {
+        char filename[50];
+        sprintf(filename, "../idle_1/hat/idle_hat000%d.png", i);
+        spriteSurface[i] = IMG_Load(filename);
+        spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
+        SDL_FreeSurface(spriteSurface[i]);
+    }
+
+    for (int i = 10; i < 24; i++)
+    {
+        char filename[50];
+        sprintf(filename, "../idle_1/hat/idle_hat00%d.png", i);
+        spriteSurface[i] = IMG_Load(filename);
+        spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
+        SDL_FreeSurface(spriteSurface[i]);
+    }
 
     pthread_t threadGest;
     pthread_create(&threadGest, NULL, BoucleGestInput, NULL);

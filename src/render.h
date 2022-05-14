@@ -11,7 +11,7 @@
 //include unistd
 #include <unistd.h>
 
-#define TILE_SIZE 32
+#define TILE_SIZE 24
 
 #define NB_TO_SHOW_X 10
 #define NB_TO_SHOW_Y 5

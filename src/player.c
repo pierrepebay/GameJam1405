@@ -13,6 +13,9 @@ player_t * initPlayer(float x, float y) {
     player->x = x;
     player->y = y;
 
+    player->w = 1;
+    player->h = 2;
+
     player->xSpeed = 0;
     player->ySpeed = 0;
 
@@ -29,20 +32,20 @@ player_t * initPlayer(float x, float y) {
 }
 
 int checkCollisionX(){
-  int case_right = ceilf(player->x);
-  int case_left = floorf(player->x);
-  int case_bot = floorf(player->y) + player->h;
-  int case_top = case_bot - 1;
-
-  if (map[case_bot][case_right] || map[case_top][case_right]){
-    player->xSpeed = 0;
-    return 2;
-  }
-
-  if (map[case_bot][case_left] || map[case_top][case_left]){
-    player->xSpeed = 0;
-    return 1;
-  }
+    int case_right = ceilf(player->x + 2/16);
+    int case_left = floorf(player->x);
+    int case_bot = floorf(player->y - 2.6) + 2;
+    int case_top = case_bot - 1;
+    if (map[case_bot][case_right] || map[case_top][case_right]){
+        player->xSpeed = 0;
+        return 2;
+    }
+    if (map[case_bot][case_left] || map[case_top][case_left]){
+        player->xSpeed = 0;
+        return 1;
+    }
+    return 0;
+    return 0;
 }
 
 int playerMoveX(){
@@ -52,10 +55,9 @@ int playerMoveX(){
         player->xSpeed += MOVEMENT_SPEED * (Keys[1] - Keys[3]);
       }
       int signe = 1;
-      if (player->xSpeed > 0){
-        signe = -1;
-      }
-      player->xSpeed += signe * FRICTION;
+      
+      player->xSpeed *= 0.8;
+      player->x += player->xSpeed;
       break;
 
     case 1: // left side collided
@@ -76,8 +78,8 @@ void gestPhysique(){
 
 
 void updatePlayerState(player_t * player) {
-  int i = player->y / 2 + 1;
-  int j = player->x / 2 + 1;
+  int i = player->y / TILE_SIZE + 1;
+  int j = player->x / TILE_SIZE + 1;
   if(map[i + 1][j]) {
     player->isGrounded = 1;
     player->isFalling = 0;
@@ -97,8 +99,8 @@ void updatePlayerState(player_t * player) {
 }
 
 void updatePlayer(player_t * player) {
-  int i = player->y / 2 + 1;
-  int j = player->x / 2 + 1;
+  int i = player->y / TILE_SIZE + 1;
+  int j = player->x / TILE_SIZE + 1;
   if(player->xSpeed > 0) {
     if (map[i, j+1]) {
       player->xSpeed = 0;

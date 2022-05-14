@@ -4,13 +4,13 @@
 #define ALLOCATION_FAILURE 1
 
 #define MOVEMENT_SPEED 0.000002
-#define PLAYER_MAX_SPEED_X 0.5
-#define PLAYER_MAX_SPEED_Y 0.2
+#define PLAYER_MAX_SPEED_X 0.000002
+#define PLAYER_MAX_SPEED_Y 0.000002
 
 #define PLAYER_MAX_ACCEL_X 1
 #define GRAVITY 9.81
 #define JUMP 0.7
-#define FRICTION 0.000002
+#define FRICTION 0.000001
 
 #include <stdio.h>
 #include <stdlib.h>
