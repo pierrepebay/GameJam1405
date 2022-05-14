@@ -30,7 +30,9 @@ typedef struct player{
     int isTakingDmg;
 }player_t;
 
-void initPlayer(float x, float y);
+extern player_t * player;
+
+player_t * initPlayer(float x, float y);
 
 
 #endif

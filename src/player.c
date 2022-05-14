@@ -1,7 +1,8 @@
 #include "player.h"
 
+player_t * player;
 
-void initPlayer(float x, float y)
+player_t * initPlayer(float x, float y)
 {
   player_t* player = (player_t*)malloc(sizeof(player_t));
   if(!player)
@@ -25,4 +26,5 @@ void initPlayer(float x, float y)
     player->isFalling = 0;
     player->isTakingDmg = 0;
   }
+  return player;
 }

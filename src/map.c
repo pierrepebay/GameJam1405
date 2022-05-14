@@ -7,7 +7,7 @@ void initMap(){
     int j;
     for (i=0; i<MAP_H; ++i){
         for (j=0; j<MAP_W; ++j){
-            map[i][j] = 1;
+            map[i][j] = 0;
         }
     }
     for (i=MAP_H/2; i < MAP_H; ++i){
