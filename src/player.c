@@ -15,6 +15,9 @@ player_t * initPlayer(float x, float y)
     player->x = x;
     player->y = y;
 
+    player->w = 32;
+    player->h = 64;
+
     player->xSpeed = 0;
     player->ySpeed = 0;
 

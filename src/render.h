@@ -4,10 +4,16 @@
 #include "main.h"
 #include "map.h"
 #include "player.h"
+#include "gest_event.h"
+
+// include pthread
+#include <pthread.h>
+//include unistd
+#include <unistd.h>
 
 #define TILE_SIZE 32
 
-#define NB_TO_SHOW_X 20
+#define NB_TO_SHOW_X 10
 #define NB_TO_SHOW_Y 5
 
 // include SDL2 libraries

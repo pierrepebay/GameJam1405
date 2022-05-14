@@ -3,8 +3,11 @@
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
-int WindowWidth = 1920;
-int WindowHeight = 1080;
+SDL_Texture* blockTexture;
+SDL_Surface * blockSurface;
+
+int WindowWidth = 1520;
+int WindowHeight = 800;
 
 void createWindow(){
     SDL_DisplayMode ScreenDisplay;
@@ -39,6 +42,16 @@ void createWindow(){
     }
 }
 
+void quitSdl(){
+    // Destroy window
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    window = NULL;
+    renderer = NULL;
+    // Quit SDL subsystems
+    TTF_Quit();
+    SDL_Quit();
+}
 
 void DrawMap(){
     SDL_Rect rect;
@@ -53,17 +66,13 @@ void DrawMap(){
     for(int y = 0; y<NB_TO_SHOW_Y+2; y++){
             for (int x = 0; x < NB_TO_SHOW_X + 1; x++)
             {
-                offset_x = x + player->x - 9;
-                offset_y = y + player->y - 3;
-                printf("offset_x = %d, offset_y = %d\n", offset_x, offset_y);
-                printf("%d %d\n", rect.x, rect.y);
+                offset_x = x + player->x;
+                offset_y = y + player->y - 4;
                 
                 if (offset_y >= 0 && offset_y < MAP_H && offset_x >= 0 && offset_x < MAP_W){
                     if(map[offset_y][offset_x] == 1){
-                        // set draw color to white
-                        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-                        // draw filled rectangle
-                        SDL_RenderFillRect(renderer, &rect);
+                        // create texture from blockSurface
+                        SDL_RenderCopy(renderer, blockTexture, NULL, &rect);
                     }
                 }
                 rect.x = rect.x + rect.w;
@@ -72,17 +81,62 @@ void DrawMap(){
         rect.y = rect.y + rect.h;
         //rect.y = 0;// top_padding * rect.h;
     }
-    SDL_RenderPresent(renderer);
+}
+
+void drawPlayer(){
+    SDL_Rect rect;
+    rect.w = player->w;
+    rect.h = player->h;
+    // player is centered on screen
+    rect.x = WindowWidth/2 - rect.w/2;
+    rect.y = WindowHeight/2 - rect.h/2;
+
+    // fill rectangle with red
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+    // draw filled rectangle
+    SDL_RenderFillRect(renderer, &rect);
+}
+
+void DrawBackground(){
+    SDL_Rect rect;
+    rect.w = WindowWidth;
+    rect.h = WindowHeight;
+    rect.x = 0;
+    rect.y = 0;
+    // fill rectangle with red
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    // draw filled rectangle
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 
 void AffichageNormal(){
+    DrawBackground();
     DrawMap();
+    drawPlayer();
+    SDL_RenderPresent(renderer);
+}
+
+
+void * BoucleGestInput(void * arg){
+    while (isRunning)
+    {
+        gestInput();
+    }
+    return NULL;
 }
 
 
 void MainDrawLoop(){
     createWindow();
+
+    blockSurface = IMG_Load("../ground_1_true.png");
+    blockTexture = SDL_CreateTextureFromSurface(renderer, blockSurface);
+    SDL_FreeSurface(blockSurface);
+
+    pthread_t threadGest;
+    pthread_create(&threadGest, NULL, BoucleGestInput, NULL);
+
     while (isRunning){
         switch (GameOption)
         {
@@ -95,6 +149,7 @@ void MainDrawLoop(){
             break;
         }
     }
+    quitSdl();
 }
 
 
