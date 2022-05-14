@@ -13,23 +13,19 @@ void * gestInput(){
             {
                 case SDLK_z:
                     Keys[0] = 1;
-                    player->y -= 0.1;
                     printf("pressed z\n");
                     break;
 
                 case SDLK_d:
-                    player->x += 0.1;
                     printf("player pos: %f, %f\n", player->x, player->y);
                     Keys[1] = 1;
                     break;
 
                 case SDLK_s:
-                    player->y += 0.1;
                     Keys[2] = 1;
                     break;
-                
+
                 case SDLK_q:
-                    player->x -= 0.1;
                     Keys[3] = 1;
                     break;
             }
@@ -49,7 +45,7 @@ void * gestInput(){
                 case SDLK_s:
                     Keys[2] = 0;
                     break;
-                
+
                 case SDLK_q:
                     Keys[3] = 0;
                     break;
@@ -59,7 +55,7 @@ void * gestInput(){
         case SDL_QUIT:
             isRunning = 0;
             break;
-        
+
         default:
             break;
         }
