@@ -133,6 +133,9 @@ void * BoucleGestInput(void * arg){
 
 void MainDrawLoop(){
     createWindow();
+    unsigned int a = SDL_GetTicks();
+    unsigned int b = SDL_GetTicks();
+    double delta = 0;
 
 
     blockSurface = IMG_Load("../ground_1_true.png");
@@ -161,17 +164,23 @@ void MainDrawLoop(){
     pthread_create(&threadGest, NULL, BoucleGestInput, NULL);
 
     while (isRunning){
-        PlayerMoveY();
-        switch (GameOption)
-        {
-        case 0:
-            // Draw the map
-            AffichageNormal();
-            break;
-        
-        default:
-            break;
+        a = SDL_GetTicks();
+        delta += a - b;
+        if (delta > 1000/60.0){
+            PlayerMoveY();
+            switch (GameOption)
+            {
+            case 0:
+                // Draw the map
+                AffichageNormal();
+                break;
+            
+            default:
+                break;
+            }
+            delta = 0;
         }
+        b = SDL_GetTicks();
     }
     quitSdl();
 }
