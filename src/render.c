@@ -70,7 +70,7 @@ void DrawMap(){
             for (int x = 0; x < NB_TO_SHOW_X + 1; x++)
             {
                 offset_x = x + player->x;
-                offset_y = y + player->y - 4;
+                offset_y = y + player->y - 3;
                 
                 if (offset_y >= 0 && offset_y < MAP_H && offset_x >= 0 && offset_x < MAP_W){
                     if(map[offset_y][offset_x] == 1){
@@ -125,7 +125,7 @@ void * BoucleGestInput(void * arg){
     while (isRunning)
     {
         gestInput();
-        gestPhysique();
+        playerMoveX();
     }
     return NULL;
 }
@@ -133,6 +133,7 @@ void * BoucleGestInput(void * arg){
 
 void MainDrawLoop(){
     createWindow();
+
 
     blockSurface = IMG_Load("../ground_1_true.png");
     blockTexture = SDL_CreateTextureFromSurface(renderer, blockSurface);
@@ -160,6 +161,7 @@ void MainDrawLoop(){
     pthread_create(&threadGest, NULL, BoucleGestInput, NULL);
 
     while (isRunning){
+        PlayerMoveY();
         switch (GameOption)
         {
         case 0:

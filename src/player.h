@@ -8,8 +8,8 @@
 #define PLAYER_MAX_SPEED_Y 0.000002
 
 #define PLAYER_MAX_ACCEL_X 1
-#define GRAVITY 9.81
-#define JUMP 0.7
+#define GRAVITY 0.00008
+#define JUMP 0.015
 #define FRICTION 0.000001
 
 #include <stdio.h>
@@ -45,6 +45,7 @@ extern player_t * player;
 player_t * initPlayer(float x, float y);
 int checkCollisionX();
 int playerMoveX();
+int PlayerMoveY();
 void gestPhysique();
 
 void updatePlayerState(player_t * player);

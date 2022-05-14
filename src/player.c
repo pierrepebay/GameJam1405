@@ -31,20 +31,54 @@ player_t * initPlayer(float x, float y) {
   return player;
 }
 
+
+int checkCollisionY(){
+    int case_x = floorf(player->x + player->xSpeed - 0.5);
+    int case_y = floorf(player->y + player->ySpeed );
+
+        if (map[case_y][case_x]){
+
+            player->ySpeed = 0;
+            player->isGrounded = 1;
+            return 1;
+        }
+        else {
+            player->isGrounded = 0;
+        }
+
+    return 0;
+}
+
+
+int PlayerMoveY(){
+    if (checkCollisionY(player)){
+        player->ySpeed = -JUMP * (Keys[0]);
+    }
+    else{
+        player->ySpeed += GRAVITY;
+    }
+   player->y += player->ySpeed;
+    return 1;
+}
+
 int checkCollisionX(){
     int case_right = ceilf(player->x + 2/16);
     int case_left = floorf(player->x);
     int case_bot = floorf(player->y - 2.6) + 2;
     int case_top = case_bot - 1;
-    if (map[case_bot][case_right] || map[case_top][case_right]){
-        player->xSpeed = 0;
-        return 2;
+
+
+
+    if (case_right >= 0 && case_right < MAP_W && case_top >= 0 && case_top < MAP_H && case_bot >= 0 && case_bot < MAP_H){
+        if(map[case_top][case_right] == 1 || map[case_bot][case_right] == 1){
+            player->xSpeed = 0;
+            return 2;
+        }
+        if (map[case_bot][case_left] || map[case_top][case_left]){
+            player->xSpeed = 0;
+            return 1;
+        }
     }
-    if (map[case_bot][case_left] || map[case_top][case_left]){
-        player->xSpeed = 0;
-        return 1;
-    }
-    return 0;
     return 0;
 }
 
@@ -57,23 +91,23 @@ int playerMoveX(){
       int signe = 1;
       
       player->xSpeed *= 0.8;
-      player->x += player->xSpeed;
       break;
 
     case 1: // left side collided
       player->xSpeed +=MOVEMENT_SPEED * Keys[1];
-      player->x += player->xSpeed;
       break;
 
     case 2: // right side collided
       player->xSpeed +=MOVEMENT_SPEED * Keys[3];
-      player->x += player->xSpeed;
       break;
   }
+    player->x += player->xSpeed;
 }
 
 void gestPhysique(){
+  //printf("player pos: %f, %f\n", player->x, player->y);
   playerMoveX();
+  PlayerMoveY();
 }
 
 
