@@ -43,6 +43,7 @@ typedef struct player{
 extern player_t * player;
 
 player_t * initPlayer(float x, float y);
+int checkTP();
 int checkCollisionX();
 int playerMoveX();
 int PlayerMoveY();

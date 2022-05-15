@@ -82,12 +82,38 @@ int PlayerMoveY(){
     return 1;
 }
 
+int checkTP() {
+  if((fabs(player->x - 140) < 0.5) && (fabs(player->y - 45) < 0.5)) {
+    player->x = 159;
+    player->y = 36;
+    player->xSpeed = 0;
+    player->ySpeed = 0;
+  }
+  if((fabs(player->x - 157) < 0.5) && (fabs(player->y - 36) < 0.5)) {
+    player->x = 142;
+    player->y = 45;
+    player->xSpeed = 0;
+    player->ySpeed = 0;
+  }
+  if((fabs(player->x - 111) < 0.5) && (fabs(player->y - 31) < 0.5)) {
+    player->x = 99;
+    player->y = 13;
+    player->xSpeed = 0;
+    player->ySpeed = 0;
+  }
+  if((fabs(player->x - 97) < 0.5) && (fabs(player->y - 13) < 0.5)) {
+    player->x = 113;
+    player->y = 31;
+    player->xSpeed = 0;
+    player->ySpeed = 0;
+  }
+}
+
 int checkCollisionX(){
     int case_right = ceilf(player->x + 2/16);
     int case_left = floorf(player->x);
     int case_bot = floorf(player->y - 2.6) + 2;
     int case_top = case_bot - 1;
-
 
 
     if (case_right >= 0 && case_right < MAP_W && case_top >= 0 && case_top < MAP_H && case_bot >= 0 && case_bot < MAP_H){
@@ -104,6 +130,7 @@ int checkCollisionX(){
 }
 
 int playerMoveX(){
+  checkTP();
   //printf(" checkCollisionX : %d\n", checkCollisionX());
   switch (checkCollisionX()) {
     case 0: // no collisions
