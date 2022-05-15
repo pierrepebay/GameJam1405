@@ -83,25 +83,25 @@ int PlayerMoveY(){
 }
 
 int checkTP() {
-  if((fabs(player->x - 140) < 0.5) && (fabs(player->y - 45) < 0.5)) {
+  if((fabs(player->x - 140) < 0.2) && (fabs(player->y - 45) < 0.2)) {
     player->x = 158;
     player->y = 37;
     player->xSpeed = 0;
     player->ySpeed = 0;
   }
-  if((fabs(player->x - 160) < 0.5) && (fabs(player->y - 37) < 0.5)) {
+  if((fabs(player->x - 160) < 0.2) && (fabs(player->y - 37) < 0.2)) {
     player->x = 142;
     player->y = 45;
     player->xSpeed = 0;
     player->ySpeed = 0;
   }
-  if((fabs(player->x - 111) < 0.5) && (fabs(player->y - 31) < 0.5)) {
+  if((fabs(player->x - 111) < 0.2) && (fabs(player->y - 31) < 0.2)) {
     player->x = 99;
     player->y = 13;
     player->xSpeed = 0;
     player->ySpeed = 0;
   }
-  if((fabs(player->x - 97) < 0.5) && (fabs(player->y - 13) < 0.5)) {
+  if((fabs(player->x - 97) < 0.2) && (fabs(player->y - 13) < 0.2)) {
     player->x = 113;
     player->y = 31;
     player->xSpeed = 0;
@@ -109,7 +109,15 @@ int checkTP() {
   }
 }
 
+void checkEnd() {
+  if(fabs(player->x - 115) < 1.2 && fabs(player->y - 13) < 1.2) {
+    int * a = NULL;
+    *a = 5;
+  }
+}
+
 int checkCollisionX(){
+  checkEnd();
     int case_right = ceilf(player->x + 2/16);
     int case_left = floorf(player->x);
     int case_bot = floorf(player->y - 2.6) + 2;
@@ -117,12 +125,22 @@ int checkCollisionX(){
 
 
     if (case_right >= 0 && case_right < MAP_W && case_top >= 0 && case_top < MAP_H && case_bot >= 0 && case_bot < MAP_H){
-        if(map[case_top][case_right] == 1 || map[case_bot][case_right] == 1){
+        if(map[case_top][case_right]|| map[case_bot][case_right] ){
+          if(map[case_top][case_right] == 4 || map[case_bot][case_right] == 4) {
+            player->xSpeed = player->xSpeed;
+          }
+          else {
             player->xSpeed = -0.05;
-            return 2;
+          }
+          return 2;
         }
-        if (map[case_bot][case_left] || map[case_top][case_left]){
+        if (map[case_bot][case_left]|| map[case_top][case_left]){
+          if(map[case_bot][case_left] == 4 || map[case_top][case_left] == 4) {
+            player->xSpeed = player->xSpeed;
+          }
+          else{
             player->xSpeed = 0.05;
+          }
             return 1;
         }
     }

@@ -48,6 +48,7 @@ int checkCollisionX();
 int playerMoveX();
 int PlayerMoveY();
 void gestPhysique();
+void checkEnd();
 
 void updatePlayerState(player_t * player);
 void updatePlayer(player_t * player);

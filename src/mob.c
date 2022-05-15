@@ -3,7 +3,7 @@
 mob_t * mob;
 mob_t * mobsList[MAX_MOB_N];
 
-int nbMobs = 10;
+int nbMobs = 3;
 
 mob_t * initMob(float x, float y) {
   mob_t * mob = (mob_t*)malloc(sizeof(mob_t));
@@ -34,17 +34,14 @@ mob_t * initMob(float x, float y) {
 }
 
 void initMobs() {
-  for(int k = 0; k < MAX_MOB_N; k++) {
-    mobsList[k] = NULL;
-  }
-  for(int i = 0; i < nbMobs; i++) {
-    mobsList[i] = initMob(8, 66);
-  }
+    mobsList[0] = initMob(48, 65);
+    mobsList[1] = initMob(88, 58);
+    mobsList[2] = initMob(103, 58);
 }
 
 int MobcheckCollisionX(mob_t * mob) {
     int case_right = ceilf(mob->x + 2/16);
-    int case_left = floorf(mob->x - 2/16); 
+    int case_left = floorf(mob->x - 2/16);
     int case_bot = floorf(mob->y - 2.6) + 2;
     int case_top = case_bot - 1;
 
@@ -83,7 +80,7 @@ int MobcheckCollisionX(mob_t * mob) {
                 }
             }
             else {
-                mob->xSpeed = 0;
+                mob->xSpeed = 0.02;
             }
             return 1;
         }
@@ -165,16 +162,16 @@ void updateMobsState() {
     for (int i = 0; i < nbMobs; i++){
         mob_t * curMob = mobsList[i];
         if(fabs((curMob->x - player->x) ) < 8) {
-            if(fabs((curMob->x - player->x) ) < 4) 
+            if(fabs((curMob->x - player->x) ) < 4)
             {
                 curMob->isCharging = 1;
             }
             curMob->isAttacking = 1;
         }
-        
+
         else {
             curMob->isAttacking = 0;
             curMob->xSpeed = 0;
-        }  
-    }          
+        }
+    }
 }

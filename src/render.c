@@ -6,6 +6,18 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture* blockTexture;
 SDL_Surface * blockSurface;
 
+SDL_Texture* bgTexture;
+SDL_Surface * bgSurface;
+
+SDL_Texture* trophyTexture;
+SDL_Surface * trophySurface;
+
+SDL_Texture* TPTexture;
+SDL_Surface * TPSurface;
+
+SDL_Texture* semiblockTexture;
+SDL_Surface * semiblockSurface;
+
 SDL_Surface * spriteSurface[25];
 SDL_Texture * spriteTexture[25];
 
@@ -97,7 +109,18 @@ void DrawMap(){
                 if (offset_y >= 0 && offset_y < MAP_H && offset_x >= 0 && offset_x < MAP_W){
                     if(map[offset_y][offset_x]){
                         // create texture from blockSurface
-                        SDL_RenderCopy(renderer, blockTexture, NULL, &rect);
+                        if (map[offset_y][offset_x] == 1){
+                          SDL_RenderCopy(renderer, blockTexture, NULL, &rect);
+                        }
+                        if (map[offset_y][offset_x] == 2){
+                          SDL_RenderCopy(renderer, semiblockTexture, NULL, &rect);
+                        }
+                        if (map[offset_y][offset_x] == 4){
+                          SDL_RenderCopy(renderer, TPTexture, NULL, &rect);
+                        }
+                        if (map[offset_y][offset_x] == 8){
+                          SDL_RenderCopy(renderer, trophyTexture, NULL, &rect);
+                        }
                     }
                 }
                 rect.x = rect.x + rect.w;
@@ -153,9 +176,9 @@ void DrawBackground(){
     rect.x = 0;
     rect.y = 0;
     // fill rectangle with red
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    //SDL_SetRenderDrawColor(renderer, 166, 162, 152, 0xFF);
     // draw filled rectangle
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderCopyEx(renderer, bgTexture, NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL);
 }
 
 void DrawEnnemies(mob_t * Ennemy){
@@ -164,7 +187,7 @@ void DrawEnnemies(mob_t * Ennemy){
     rect.w = player->w * TILE_SIZE * 8;
     rect.h = player->h * TILE_SIZE * 4;
     rect.x = WindowWidth/2 + (Ennemy->x - player->x) * MAP_W/2;
-    rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * TILE_SIZE/4.8 + 20;
+    rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * 1.2 + 20;
     // fill rectangle with red
     // draw filled rectangle
     int direction = 1;
@@ -204,9 +227,24 @@ void MainDrawLoop(){
     double delta = 0;
 
 
-    blockSurface = IMG_Load("../assets/ground_1_true.png");
+    blockSurface = IMG_Load("../assets/ground_2.png");
     blockTexture = SDL_CreateTextureFromSurface(renderer, blockSurface);
+
+    trophySurface = IMG_Load("../assets/trophy.png");
+    trophyTexture = SDL_CreateTextureFromSurface(renderer, trophySurface);
+
+    bgSurface = IMG_Load("../assets/background.png");
+    bgTexture = SDL_CreateTextureFromSurface(renderer, bgSurface);
+
+    semiblockSurface = IMG_Load("../ground_breackable.png");
+    semiblockTexture = SDL_CreateTextureFromSurface(renderer, semiblockSurface);
+
+    TPSurface = IMG_Load("../assets/portal.png");
+    TPTexture = SDL_CreateTextureFromSurface(renderer, TPSurface);
+
     SDL_FreeSurface(blockSurface);
+    SDL_FreeSurface(TPSurface);
+    SDL_FreeSurface(semiblockSurface);
 
     for (int i = 0; i < 10; i++)
     {
