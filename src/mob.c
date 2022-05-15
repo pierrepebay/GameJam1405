@@ -43,8 +43,8 @@ void initMobs() {
 }
 
 int MobcheckCollisionX(mob_t * mob) {
-    int case_right = ceilf(mob->x + 2/16 + mob->xSpeed);
-    int case_left = floorf(mob->x  + mob->xSpeed);
+    int case_right = ceilf(mob->x + 2/16);
+    int case_left = floorf(mob->x - 2/16); 
     int case_bot = floorf(mob->y - 2.6) + 2;
     int case_top = case_bot - 1;
 
@@ -59,11 +59,9 @@ int MobcheckCollisionX(mob_t * mob) {
             if (mob->isCharging) {
                 if (map[case_top][case_right]){
                     map[case_top][case_right] = 0;
-                    printf("boom");
                 }
                 else if (map[case_bot][case_right]){
                     map[case_bot][case_right] = 0;
-                    printf("boom");
                 }
             }
             else {
@@ -79,11 +77,9 @@ int MobcheckCollisionX(mob_t * mob) {
             if (mob->isCharging) {
                 if (map[case_top][case_left]){
                     map[case_top][case_left] = 0;
-                    printf("boom");
                 }
                 else if (map[case_bot][case_left]){
                     map[case_bot][case_left] = 0;
-                    printf("boom");
                 }
             }
             else {

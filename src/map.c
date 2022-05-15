@@ -25,14 +25,16 @@ void initMap(){
         map[0][i] = 1;
         map[1][i] = 1;
     }
-    map[7][20] = 2;
-    map[7][21] = 2;
     map[8][21] = 2;
     map[9][21] = 2;
     map[10][21] = 0;
     map[11][21] = 0;
     map[10][22] = 0;
     map[11][22] = 0;
+    map[10][23] = 0;
+    map[11][23] = 0;
+    map[10][24] = 0;
+    map[11][24] = 0;
 }
 
 void printMap(){
@@ -42,4 +44,18 @@ void printMap(){
         }
         printf("\n");
     }
+}
+
+void readMap()
+{
+    FILE *fp;
+    fp = fopen("map2.txt", "r");
+    for(int i = 0; i < MAP_H; i++)
+    {
+        for(int j = 0; j < MAP_W; j++)
+        {
+            fscanf(fp, "%d", &map[i][j]);
+        }
+    }
+    fclose(fp);
 }

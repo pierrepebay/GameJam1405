@@ -10,9 +10,10 @@ int main(){
     isRunning = 1;
     GameOption = 0;
 
-    initMap();
+    //initMap();
     //printMap();
-    player = initPlayer(10, 10);
+    readMap();
+    player = initPlayer(6,66);
     initMobs();
     MainDrawLoop();
 }
