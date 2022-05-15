@@ -35,11 +35,8 @@ player_t * initPlayer(float x, float y) {
 int checkCollisionY(){
 
     int case_x = floorf(player->x + player->w); ;
-     
-    int case_y = floorf(player->y + player->ySpeed );
 
-    printf("case_x: %d\n", case_x);
-    printf("case_y: %d\n", case_y);
+    int case_y = floorf(player->y + player->ySpeed );
 
         if (map[case_y][case_x]){
 
@@ -54,13 +51,36 @@ int checkCollisionY(){
     return 0;
 }
 
+int checkCollisionY2(){
+
+    int case_x = floorf(player->x + player->w/4);
+
+    int case_y = floorf(player->y + player->ySpeed );
+
+    int case_y2 = case_y - 1.5;
+
+    printf("case_x: %d\n", case_x);
+    printf("case_y: %d\n", case_y2);
+
+        if (map[case_y2][case_x]) {
+          player->ySpeed = 0;
+          player->isGrounded = 0;
+          return 1;
+        }
+
+    return 0;
+}
 
 int PlayerMoveY(){
     if (checkCollisionY(player)){
         player->ySpeed = -JUMP * (Keys[0]);
     }
     else{
+      checkCollisionY2();
+      printf("%d\n", checkCollisionY2());
+      if(!player->isGrounded) {
         player->ySpeed += GRAVITY;
+      }
     }
    player->y += player->ySpeed;
     return 1;
@@ -94,7 +114,7 @@ int playerMoveX(){
         player->xSpeed += MOVEMENT_SPEED * (Keys[1] - Keys[3]);
       }
       int signe = 1;
-      
+
       player->xSpeed *= 0.8;
 
       if (!player->isGrounded){
