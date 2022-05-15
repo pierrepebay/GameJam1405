@@ -152,13 +152,11 @@ void drawPlayer(){
     }
     else {
       if (player->ySpeed > 0){
-          printf("FALL\n");
           rect.w *= 1.53;
           rect.h *= 1.38;
           rect.y -= 60;
         SDL_RenderCopyEx(renderer, spriteJUMPTexture[12 + (SDL_GetTicks()/50)%14], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
       }else {
-          printf("JUMP\n");
           rect.w *= 1.53;
           rect.h *= 1.38;
           rect.y -= 60;

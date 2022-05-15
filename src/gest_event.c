@@ -17,8 +17,6 @@ void * gestInput(){
                     break;
 
                 case SDLK_d:
-                printf("checkCollisionX(%d)\n", checkCollisionX());
-                printf("player pos: %f, %f\n", player->x, player->y);
                     player->direction = 1;
                     Keys[1] = 1;
                     break;

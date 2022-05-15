@@ -110,7 +110,7 @@ int checkTP() {
 }
 
 void checkEnd() {
-  if(fabs(player->x - 115) < 1.2 && fabs(player->y - 13) < 1.2) {
+  if(fabs(player->x - 115) < 0.8 && fabs(player->y - 13) < 0.8) {
     int * a = NULL;
     *a = 5;
   }
