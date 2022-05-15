@@ -17,7 +17,7 @@
 #include <string.h>
 
 typedef struct player{
-    float x;
+    double x;
     float y;
 
     float xSpeed;
