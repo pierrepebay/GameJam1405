@@ -122,10 +122,16 @@ void drawPlayer(){
     else {
       if (player->ySpeed > 0){
           printf("FALL\n");
-        SDL_RenderCopyEx(renderer, spriteJUMPTexture[13 + (SDL_GetTicks()/50)%18], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+          rect.w *= 1.53;
+          rect.h *= 1.38;
+          rect.y -= 60;
+        SDL_RenderCopyEx(renderer, spriteJUMPTexture[12 + (SDL_GetTicks()/50)%14], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
       }else {
           printf("JUMP\n");
-        SDL_RenderCopyEx(renderer, spriteJUMPTexture[(SDL_GetTicks()/50)%13], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+          rect.w *= 1.53;
+          rect.h *= 1.38;
+          rect.y -= 60;
+        SDL_RenderCopyEx(renderer, spriteJUMPTexture[(SDL_GetTicks()/50)%20], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
       }
 
     }
@@ -215,19 +221,19 @@ void MainDrawLoop(){
 
     }
 
-    for(int i = 10; i < 13; i++) {
+    for(int i = 10; i < 20; i++) {
       char filename[100];
       sprintf(filename, "../assets/jump/jump_hat/jump_hat00%d.png", i);
       spriteJUMPSurface[i] = IMG_Load(filename);
       spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPSurface[i]);
-      SDL_FreeSurface(spriteSurface[i]);
+      SDL_FreeSurface(spriteJUMPSurface[i]);
       sprintf(filename, "../assets/jump/jump_golden_hat/jump_golden_hat00%d.png", i);
       spriteJUMPGOLDENSurface[i] = IMG_Load(filename);
       spriteJUMPGOLDENTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPGOLDENSurface[i]);
       SDL_FreeSurface(spriteJUMPGOLDENSurface[i]);
     }
 
-    for(int i = 13; i < 26; i++) {
+    for(int i = 12; i < 26; i++) {
       char filename[100];
       sprintf(filename, "../assets/jump/fall_hat/fall_hat00%d.png", i);
       spriteJUMPSurface[i] = IMG_Load(filename);
