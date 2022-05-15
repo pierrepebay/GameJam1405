@@ -84,12 +84,12 @@ int PlayerMoveY(){
 
 int checkTP() {
   if((fabs(player->x - 140) < 0.5) && (fabs(player->y - 45) < 0.5)) {
-    player->x = 159;
-    player->y = 36;
+    player->x = 158;
+    player->y = 37;
     player->xSpeed = 0;
     player->ySpeed = 0;
   }
-  if((fabs(player->x - 157) < 0.5) && (fabs(player->y - 36) < 0.5)) {
+  if((fabs(player->x - 160) < 0.5) && (fabs(player->y - 37) < 0.5)) {
     player->x = 142;
     player->y = 45;
     player->xSpeed = 0;
