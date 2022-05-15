@@ -27,6 +27,8 @@ void initMap(){
     }
     map[7][20] = 2;
     map[7][21] = 2;
+    map[8][21] = 2;
+    map[9][21] = 2;
 }
 
 void printMap(){

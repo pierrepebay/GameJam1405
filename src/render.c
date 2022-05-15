@@ -126,7 +126,7 @@ void DrawEnnemies(mob_t * Ennemy){
     SDL_Rect rect;
     rect.w = player->w * TILE_SIZE * 4;
     rect.h = player->h * TILE_SIZE * 4;
-    rect.x = WindowWidth/2 - rect.w/2 + (Ennemy->x - player->x) * MAP_W;
+    rect.x = WindowWidth/2 + (Ennemy->x - player->x) * MAP_W/2;
     rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * TILE_SIZE/4.8 + 20;
     // fill rectangle with red
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);

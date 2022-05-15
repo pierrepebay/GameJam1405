@@ -59,9 +59,6 @@ int checkCollisionY2(){
 
     int case_y2 = case_y - 1.5;
 
-    printf("case_x: %d\n", case_x);
-    printf("case_y: %d\n", case_y2);
-
         if (map[case_y2][case_x]) {
           player->ySpeed = 0;
           player->isGrounded = 0;
@@ -77,7 +74,6 @@ int PlayerMoveY(){
     }
     else{
       checkCollisionY2();
-      printf("%d\n", checkCollisionY2());
       if(!player->isGrounded) {
         player->ySpeed += GRAVITY;
       }
