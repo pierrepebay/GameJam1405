@@ -12,8 +12,8 @@ SDL_Texture * spriteTexture[25];
 SDL_Surface * spriteRUNSurface[25];
 SDL_Texture * spriteRUNTexture[25];
 
-SDL_Surface * spriteJUMPSurface[25];
-SDL_Texture * spriteJUMPTexture[25];
+SDL_Surface * spriteJUMPSurface[50];
+SDL_Texture * spriteJUMPTexture[50];
 
 SDL_Surface * spriteJUMPGOLDENSurface[25];
 SDL_Texture * spriteJUMPGOLDENTexture[25];
@@ -121,9 +121,11 @@ void drawPlayer(){
     }
     else {
       if (player->ySpeed > 0){
-        SDL_RenderCopyEx(renderer, spriteFALLTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+          printf("FALL\n");
+        SDL_RenderCopyEx(renderer, spriteJUMPTexture[13 + (SDL_GetTicks()/50)%18], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
       }else {
-        SDL_RenderCopyEx(renderer, spriteJUMPTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+          printf("JUMP\n");
+        SDL_RenderCopyEx(renderer, spriteJUMPTexture[(SDL_GetTicks()/50)%13], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
       }
 
     }
@@ -195,6 +197,13 @@ void MainDrawLoop(){
         spriteSurface[i] = IMG_Load(filename);
         spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
         SDL_FreeSurface(spriteSurface[i]);
+
+
+        sprintf(filename, "../assets/run/run_hat/run_hat000%d.png", i);
+        spriteRUNSurface[i] = IMG_Load(filename);
+        spriteRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteRUNSurface[i]);
+        SDL_FreeSurface(spriteRUNSurface[i]);
+
         sprintf(filename, "../assets/jump/jump_hat/jump_hat000%d.png", i);
         spriteJUMPSurface[i] = IMG_Load(filename);
         spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPSurface[i]);
@@ -218,12 +227,12 @@ void MainDrawLoop(){
       SDL_FreeSurface(spriteJUMPGOLDENSurface[i]);
     }
 
-    for(int i = 12; i < 31; i++) {
+    for(int i = 13; i < 31; i++) {
       char filename[100];
       sprintf(filename, "../assets/jump/fall_hat/fall_hat00%d.png", i);
-      spriteFALLSurface[i] = IMG_Load(filename);
-      spriteFALLTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteFALLSurface[i]);
-      SDL_FreeSurface(spriteFALLSurface[i]);
+      spriteJUMPSurface[i] = IMG_Load(filename);
+      spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteFALLSurface[i]);
+      SDL_FreeSurface(spriteJUMPSurface[i]);
       sprintf(filename, "../assets/jump/fall_golden_hat/fall_golden_hat00%d.png", i);
       spriteFALLGOLDENSurface[i] = IMG_Load(filename);
       spriteFALLGOLDENTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteFALLGOLDENSurface[i]);
