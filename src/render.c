@@ -227,11 +227,11 @@ void MainDrawLoop(){
       SDL_FreeSurface(spriteJUMPGOLDENSurface[i]);
     }
 
-    for(int i = 13; i < 31; i++) {
+    for(int i = 13; i < 26; i++) {
       char filename[100];
       sprintf(filename, "../assets/jump/fall_hat/fall_hat00%d.png", i);
       spriteJUMPSurface[i] = IMG_Load(filename);
-      spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteFALLSurface[i]);
+      spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPSurface[i]);
       SDL_FreeSurface(spriteJUMPSurface[i]);
       sprintf(filename, "../assets/jump/fall_golden_hat/fall_golden_hat00%d.png", i);
       spriteFALLGOLDENSurface[i] = IMG_Load(filename);
