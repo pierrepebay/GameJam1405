@@ -12,6 +12,17 @@ SDL_Texture * spriteTexture[25];
 SDL_Surface * spriteRUNSurface[25];
 SDL_Texture * spriteRUNTexture[25];
 
+SDL_Surface * spriteJUMPSurface[25];
+SDL_Texture * spriteJUMPTexture[25];
+
+SDL_Surface * spriteJUMPGOLDENSurface[25];
+SDL_Texture * spriteJUMPGOLDENTexture[25];
+
+SDL_Surface * spriteFALLSurface[25];
+SDL_Texture * spriteFALLTexture[25];
+
+SDL_Surface * spriteFALLGOLDENSurface[25];
+SDL_Texture * spriteFALLGOLDENTexture[25];
 int WindowWidth = 1520;
 int WindowHeight = 800;
 
@@ -74,7 +85,7 @@ void DrawMap(){
             {
                 offset_x = x + player->x - 7;
                 offset_y = y + player->y - 5;
-                
+
                 if (offset_y >= 0 && offset_y < MAP_H && offset_x >= 0 && offset_x < MAP_W){
                     if(map[offset_y][offset_x]){
                         // create texture from blockSurface
@@ -97,16 +108,26 @@ void drawPlayer(){
     rect.x = WindowWidth/2 - rect.w/2;
     rect.y = WindowHeight/2 - rect.h/2 + 20;
     // draw player
-    if (fabs(player->xSpeed) < 0.0000001){
-        SDL_RenderCopyEx(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+    if (player->isGrounded){
+      if (fabs(player->xSpeed) < 0.0000001){
+          SDL_RenderCopyEx(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+      }
+      else{
+          rect.w *= 1.536;
+          rect.h *= 1.35;
+          rect.y -= 60;
+          SDL_RenderCopyEx(renderer, spriteRUNTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+      }
     }
-    else{
-        rect.w *= 1.536;
-        rect.h *= 1.35;
-        rect.y -= 60;
-        SDL_RenderCopyEx(renderer, spriteRUNTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+    else {
+      if (player->ySpeed > 0){
+        SDL_RenderCopyEx(renderer, spriteFALLTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+      }else {
+        SDL_RenderCopyEx(renderer, spriteJUMPTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+      }
+
     }
-    
+
 }
 
 void DrawBackground(){
@@ -169,12 +190,50 @@ void MainDrawLoop(){
 
     for (int i = 0; i < 10; i++)
     {
-        char filename[50];
+        char filename[100];
         sprintf(filename, "../assets/idle_1/hat/idle_hat000%d.png", i);
         spriteSurface[i] = IMG_Load(filename);
         spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
         SDL_FreeSurface(spriteSurface[i]);
-        sprintf(filename, "../assets/run/run_hat/run_hat000%d.png", i);
+        sprintf(filename, "../assets/jump/jump_hat/jump_hat000%d.png", i);
+        spriteJUMPSurface[i] = IMG_Load(filename);
+        spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPSurface[i]);
+        SDL_FreeSurface(spriteJUMPSurface[i]);
+        sprintf(filename, "../assets/jump/jump_golden_hat/jump_golden_hat000%d.png", i);
+        spriteJUMPGOLDENSurface[i] = IMG_Load(filename);
+        spriteJUMPGOLDENTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPGOLDENSurface[i]);
+        SDL_FreeSurface(spriteJUMPGOLDENSurface[i]);
+
+    }
+
+    for(int i = 10; i < 13; i++) {
+      char filename[100];
+      sprintf(filename, "../assets/jump/jump_hat/jump_hat00%d.png", i);
+      spriteJUMPSurface[i] = IMG_Load(filename);
+      spriteJUMPTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPSurface[i]);
+      SDL_FreeSurface(spriteSurface[i]);
+      sprintf(filename, "../assets/jump/jump_golden_hat/jump_golden_hat00%d.png", i);
+      spriteJUMPGOLDENSurface[i] = IMG_Load(filename);
+      spriteJUMPGOLDENTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteJUMPGOLDENSurface[i]);
+      SDL_FreeSurface(spriteJUMPGOLDENSurface[i]);
+    }
+
+    for(int i = 12; i < 31; i++) {
+      char filename[100];
+      sprintf(filename, "../assets/jump/fall_hat/fall_hat00%d.png", i);
+      spriteFALLSurface[i] = IMG_Load(filename);
+      spriteFALLTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteFALLSurface[i]);
+      SDL_FreeSurface(spriteFALLSurface[i]);
+      sprintf(filename, "../assets/jump/fall_golden_hat/fall_golden_hat00%d.png", i);
+      spriteFALLGOLDENSurface[i] = IMG_Load(filename);
+      spriteFALLGOLDENTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteFALLGOLDENSurface[i]);
+      SDL_FreeSurface(spriteFALLGOLDENSurface[i]);
+    }
+
+    for (int i = 10; i < 23; i++)
+    {
+        char filename[50];
+        sprintf(filename, "../assets/run/run_hat/run_hat00%d.png", i);
         spriteRUNSurface[i] = IMG_Load(filename);
         spriteRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteRUNSurface[i]);
         SDL_FreeSurface(spriteRUNSurface[i]);
@@ -189,15 +248,6 @@ void MainDrawLoop(){
         SDL_FreeSurface(spriteSurface[i]);
     }
 
-    for (int i = 10; i < 23; i++)
-    {
-        char filename[50];
-        sprintf(filename, "../assets/run/run_hat/run_hat00%d.png", i);
-        spriteRUNSurface[i] = IMG_Load(filename);
-        spriteRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteRUNSurface[i]);
-        SDL_FreeSurface(spriteRUNSurface[i]);
-    }
-
     pthread_t threadGest;
     pthread_create(&threadGest, NULL, BoucleGestInput, NULL);
 
@@ -207,14 +257,14 @@ void MainDrawLoop(){
         if (delta > 1000/60.0){
             PlayerMoveY();
             moveMobs(player);
-            updateMobsState(); 
+            updateMobsState();
             switch (GameOption)
             {
             case 0:
                 // Draw the map
                 AffichageNormal();
                 break;
-            
+
             default:
                 break;
             }
@@ -224,6 +274,3 @@ void MainDrawLoop(){
     }
     quitSdl();
 }
-
-
-
