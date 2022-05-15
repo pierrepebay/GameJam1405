@@ -29,6 +29,10 @@ void initMap(){
     map[7][21] = 2;
     map[8][21] = 2;
     map[9][21] = 2;
+    map[10][21] = 0;
+    map[11][21] = 0;
+    map[10][22] = 0;
+    map[11][22] = 0;
 }
 
 void printMap(){

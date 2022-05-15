@@ -43,8 +43,8 @@ void initMobs() {
 }
 
 int MobcheckCollisionX(mob_t * mob) {
-    int case_right = ceilf(mob->x + 2/16);
-    int case_left = floorf(mob->x);
+    int case_right = ceilf(mob->x + 2/16 + mob->xSpeed);
+    int case_left = floorf(mob->x  + mob->xSpeed);
     int case_bot = floorf(mob->y - 2.6) + 2;
     int case_top = case_bot - 1;
 
@@ -95,10 +95,57 @@ int MobcheckCollisionX(mob_t * mob) {
     return 1;
 }
 
+int MobcheckCollisionY(mob_t * mob) {
+
+    int case_x = floorf(mob->x + mob->w); ;
+
+    int case_y = floorf(mob->y + mob->ySpeed );
+
+        if (map[case_y][case_x]){
+
+            mob->ySpeed = 0;
+            mob->isGrounded = 1;
+            return 1;
+        }
+        else {
+            mob->isGrounded = 0;
+        }
+
+    return 0;
+}
+
+int MobcheckCollisionY2(mob_t * mob) {
+
+    int case_x = floorf(mob->x + mob->w/4);
+
+    int case_y = floorf(mob->y + mob->ySpeed );
+
+    int case_y2 = case_y - 1.5;
+
+        if (map[case_y2][case_x]) {
+          mob->ySpeed = 0;
+          mob->isGrounded = 0;
+          return 1;
+        }
+
+    return 0;
+}
+
+void moveMobY(mob_t * mob) {
+
+    if (!MobcheckCollisionY(mob)){
+      MobcheckCollisionY2(mob);
+      if(!mob->isGrounded) {
+        mob->ySpeed += GRAVITY;
+      }
+    }
+   mob->y += mob->ySpeed;
+}
+
 void moveMobs(player_t * player) {
     for (int i = 0; i < nbMobs; i++){
         mob_t * curMob = mobsList[i];
-        printf("mob pos: %f %f\n", curMob->x, curMob->y);
+        moveMobY(curMob);
         int coeff = MobcheckCollisionX(curMob);
         if ((player->x - curMob->x) < 0) {
             curMob->direction = -1;
@@ -121,8 +168,8 @@ void moveMobs(player_t * player) {
 void updateMobsState() {
     for (int i = 0; i < nbMobs; i++){
         mob_t * curMob = mobsList[i];
-        if(fabs((curMob->x - player->x) ) < 4) {
-            if(fabs((curMob->x - player->x) ) < 3) 
+        if(fabs((curMob->x - player->x) ) < 8) {
+            if(fabs((curMob->x - player->x) ) < 4) 
             {
                 curMob->isCharging = 1;
             }
