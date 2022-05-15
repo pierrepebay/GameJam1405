@@ -97,15 +97,26 @@ void drawPlayer(){
     rect.x = WindowWidth/2 - rect.w/2;
     rect.y = WindowHeight/2 - rect.h/2 + 20;
     // draw player
-    if (fabs(player->xSpeed) < 0.0000001){
-        SDL_RenderCopyEx(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+    if (player->isGrounded){
+        if (fabs(player->xSpeed) < 0.0000001){
+            SDL_RenderCopyEx(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+        }
+        else{
+            rect.w *= 1.536;
+            rect.h *= 1.35;
+            rect.y -= 60;
+            SDL_RenderCopyEx(renderer, spriteRUNTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+        }
     }
-    else{
-        rect.w *= 1.536;
-        rect.h *= 1.35;
-        rect.y -= 60;
-        SDL_RenderCopyEx(renderer, spriteRUNTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+    else {
+        if (player->ySpeed > 0){
+            SDL_RenderCopyEx(renderer, spriteFALLTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+        }
+        else{
+            SDL_RenderCopyEx(renderer, spriteJUMPTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+        }
     }
+
     
 }
 

@@ -73,7 +73,7 @@ int PlayerMoveY(){
         player->ySpeed = -JUMP * (Keys[0]);
     }
     else{
-      checkCollisionY2();
+      //checkCollisionY2();
       if(!player->isGrounded) {
         player->ySpeed += GRAVITY;
       }
@@ -92,11 +92,11 @@ int checkCollisionX(){
 
     if (case_right >= 0 && case_right < MAP_W && case_top >= 0 && case_top < MAP_H && case_bot >= 0 && case_bot < MAP_H){
         if(map[case_top][case_right] == 1 || map[case_bot][case_right] == 1){
-            player->xSpeed = 0;
+            player->xSpeed = -0.05;
             return 2;
         }
         if (map[case_bot][case_left] || map[case_top][case_left]){
-            player->xSpeed = 0;
+            player->xSpeed = 0.05;
             return 1;
         }
     }
@@ -104,6 +104,7 @@ int checkCollisionX(){
 }
 
 int playerMoveX(){
+  //printf(" checkCollisionX : %d\n", checkCollisionX());
   switch (checkCollisionX()) {
     case 0: // no collisions
       if (fabs(player->xSpeed) < PLAYER_MAX_SPEED_X){
@@ -113,9 +114,6 @@ int playerMoveX(){
 
       player->xSpeed *= 0.8;
 
-      if (!player->isGrounded){
-        player->xSpeed *= 0.5;
-      }
       break;
 
     case 1: // left side collided
