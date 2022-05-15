@@ -60,7 +60,6 @@ void moveMobs(player_t * player) {
             }
         }
         curMob->x += curMob->xSpeed;
-        printf("mob x: %f\n", curMob->x);
     }
 }
 

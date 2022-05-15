@@ -33,8 +33,13 @@ player_t * initPlayer(float x, float y) {
 
 
 int checkCollisionY(){
-    int case_x = floorf(player->x + player->xSpeed - 0.5);
+
+    int case_x = floorf(player->x + player->w); ;
+     
     int case_y = floorf(player->y + player->ySpeed );
+
+    printf("case_x: %d\n", case_x);
+    printf("case_y: %d\n", case_y);
 
         if (map[case_y][case_x]){
 

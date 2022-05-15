@@ -16,6 +16,7 @@ void * gestInput(){
                     break;
 
                 case SDLK_d:
+                    player->direction = 1;
                     Keys[1] = 1;
                     break;
 
@@ -24,6 +25,7 @@ void * gestInput(){
                     break;
 
                 case SDLK_q:
+                    player->direction = 0;
                     Keys[3] = 1;
                     break;
             }

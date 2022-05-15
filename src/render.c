@@ -9,6 +9,9 @@ SDL_Surface * blockSurface;
 SDL_Surface * spriteSurface[25];
 SDL_Texture * spriteTexture[25];
 
+SDL_Surface * spriteRUNSurface[25];
+SDL_Texture * spriteRUNTexture[25];
+
 int WindowWidth = 1520;
 int WindowHeight = 800;
 
@@ -69,11 +72,11 @@ void DrawMap(){
     for(int y = 0; y<NB_TO_SHOW_Y+2; y++){
             for (int x = 0; x < NB_TO_SHOW_X + 1; x++)
             {
-                offset_x = x + player->x;
-                offset_y = y + player->y - 3;
+                offset_x = x + player->x - 7;
+                offset_y = y + player->y - 5;
                 
                 if (offset_y >= 0 && offset_y < MAP_H && offset_x >= 0 && offset_x < MAP_W){
-                    if(map[offset_y][offset_x] == 1){
+                    if(map[offset_y][offset_x]){
                         // create texture from blockSurface
                         SDL_RenderCopy(renderer, blockTexture, NULL, &rect);
                     }
@@ -92,11 +95,17 @@ void drawPlayer(){
     rect.h = player->h * TILE_SIZE * 4;
     // player is centered on screen
     rect.x = WindowWidth/2 - rect.w/2;
-    rect.y = WindowHeight/2 - rect.h/2;
+    rect.y = WindowHeight/2 - rect.h/2 + 20;
     // draw player
-
-
-    SDL_RenderCopy(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect);
+    if (fabs(player->xSpeed) < 0.0000001){
+        SDL_RenderCopyEx(renderer, spriteTexture[(SDL_GetTicks()/50)%24], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+    }
+    else{
+        rect.w *= 1.536;
+        rect.h *= 1.35;
+        rect.y -= 60;
+        SDL_RenderCopyEx(renderer, spriteRUNTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (1 - player->direction));
+    }
     
 }
 
@@ -118,7 +127,7 @@ void DrawEnnemies(mob_t * Ennemy){
     rect.w = player->w * TILE_SIZE * 4;
     rect.h = player->h * TILE_SIZE * 4;
     rect.x = WindowWidth/2 - rect.w/2 + (Ennemy->x - player->x) * MAP_W;
-    rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * TILE_SIZE/3;
+    rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * TILE_SIZE/4.8 + 20;
     // fill rectangle with red
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     // draw filled rectangle
@@ -154,26 +163,39 @@ void MainDrawLoop(){
     double delta = 0;
 
 
-    blockSurface = IMG_Load("../ground_1_true.png");
+    blockSurface = IMG_Load("../assets/ground_1_true.png");
     blockTexture = SDL_CreateTextureFromSurface(renderer, blockSurface);
     SDL_FreeSurface(blockSurface);
 
     for (int i = 0; i < 10; i++)
     {
         char filename[50];
-        sprintf(filename, "../idle_1/hat/idle_hat000%d.png", i);
+        sprintf(filename, "../assets/idle_1/hat/idle_hat000%d.png", i);
         spriteSurface[i] = IMG_Load(filename);
         spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
         SDL_FreeSurface(spriteSurface[i]);
+        sprintf(filename, "../assets/run/run_hat/run_hat000%d.png", i);
+        spriteRUNSurface[i] = IMG_Load(filename);
+        spriteRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteRUNSurface[i]);
+        SDL_FreeSurface(spriteRUNSurface[i]);
     }
 
     for (int i = 10; i < 24; i++)
     {
         char filename[50];
-        sprintf(filename, "../idle_1/hat/idle_hat00%d.png", i);
+        sprintf(filename, "../assets/idle_1/hat/idle_hat00%d.png", i);
         spriteSurface[i] = IMG_Load(filename);
         spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
         SDL_FreeSurface(spriteSurface[i]);
+    }
+
+    for (int i = 10; i < 23; i++)
+    {
+        char filename[50];
+        sprintf(filename, "../assets/run/run_hat/run_hat00%d.png", i);
+        spriteRUNSurface[i] = IMG_Load(filename);
+        spriteRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteRUNSurface[i]);
+        SDL_FreeSurface(spriteRUNSurface[i]);
     }
 
     pthread_t threadGest;

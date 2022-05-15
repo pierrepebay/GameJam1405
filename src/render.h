@@ -14,8 +14,8 @@
 
 #define TILE_SIZE 24
 
-#define NB_TO_SHOW_X 10
-#define NB_TO_SHOW_Y 5
+#define NB_TO_SHOW_X 15
+#define NB_TO_SHOW_Y 8
 
 // include SDL2 libraries
 #include <SDL2/SDL.h>
