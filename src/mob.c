@@ -38,7 +38,7 @@ void initMobs() {
     mobsList[k] = NULL;
   }
   for(int i = 0; i < nbMobs; i++) {
-    mobsList[i] = initMob(25, 10);
+    mobsList[i] = initMob(8, 66);
   }
 }
 
@@ -52,7 +52,7 @@ int MobcheckCollisionX(mob_t * mob) {
 
     if (case_right >= 0 && case_right < MAP_W && case_top >= 0 && case_top < MAP_H && case_bot >= 0 && case_bot < MAP_H){
         if(map[case_top][case_right] == 1 || map[case_bot][case_right] == 1){
-            mob->xSpeed = 0;
+            mob->xSpeed = -0.02;
             return 2;
         }
         if(map[case_top][case_right] == 2 || map[case_bot][case_right] == 2) {
@@ -70,7 +70,7 @@ int MobcheckCollisionX(mob_t * mob) {
             return 1;
         }
         if (map[case_bot][case_left] == 1 || map[case_top][case_left] == 1){
-            mob->xSpeed = 0;
+            mob->xSpeed = 0.02;
             return 0;
         }
         if(map[case_top][case_left] == 2 || map[case_bot][case_left] == 2) {

@@ -23,6 +23,14 @@ SDL_Texture * spriteFALLTexture[25];
 
 SDL_Surface * spriteFALLGOLDENSurface[25];
 SDL_Texture * spriteFALLGOLDENTexture[25];
+
+SDL_Surface * monsterIDLESurface[25];
+SDL_Texture * monsterIDLETexture[25];
+
+SDL_Surface * monsterRUNSurface[25];
+SDL_Texture * monsterRUNTexture[25];
+
+
 int WindowWidth = 1520;
 int WindowHeight = 800;
 
@@ -153,14 +161,17 @@ void DrawBackground(){
 void DrawEnnemies(mob_t * Ennemy){
     int tick = SDL_GetTicks()/500;
     SDL_Rect rect;
-    rect.w = player->w * TILE_SIZE * 4;
+    rect.w = player->w * TILE_SIZE * 8;
     rect.h = player->h * TILE_SIZE * 4;
     rect.x = WindowWidth/2 + (Ennemy->x - player->x) * MAP_W/2;
     rect.y = WindowHeight/2 - rect.h/2 + (Ennemy->y - player->y) * MAP_H * TILE_SIZE/4.8 + 20;
     // fill rectangle with red
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     // draw filled rectangle
-    SDL_RenderCopy(renderer, blockTexture, NULL, &rect);
+    int direction = 1;
+    if (Ennemy->x < player->x){
+        direction = -1;
+    }
+    SDL_RenderCopyEx(renderer, monsterRUNTexture[(SDL_GetTicks()/50)%23], NULL, &rect, 0, NULL, SDL_FLIP_HORIZONTAL * (player->direction));
 
 }
 
@@ -169,8 +180,9 @@ void AffichageNormal(){
     DrawBackground();
     DrawMap();
     drawPlayer();
-    DrawEnnemies(mobsList[0]);
-    DrawEnnemies(mobsList[1]);
+    for (int i = 0; i < nbMobs; i++){
+        DrawEnnemies(mobsList[i]);
+    }
     SDL_RenderPresent(renderer);
 }
 
@@ -203,6 +215,17 @@ void MainDrawLoop(){
         spriteSurface[i] = IMG_Load(filename);
         spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
         SDL_FreeSurface(spriteSurface[i]);
+
+        sprintf(filename, "../assets/monster/idle/monster_idle000%d.png", i);
+        monsterIDLESurface[i] = IMG_Load(filename);
+        monsterIDLETexture[i] = SDL_CreateTextureFromSurface(renderer, monsterIDLESurface[i]);
+        SDL_FreeSurface(monsterIDLESurface[i]);
+
+
+        sprintf(filename, "../assets/monster/run/monster_run000%d.png", i);
+        monsterRUNSurface[i] = IMG_Load(filename);
+        monsterRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, monsterRUNSurface[i]);
+        SDL_FreeSurface(monsterRUNSurface[i]);
 
 
         sprintf(filename, "../assets/run/run_hat/run_hat000%d.png", i);
@@ -261,7 +284,23 @@ void MainDrawLoop(){
         spriteSurface[i] = IMG_Load(filename);
         spriteTexture[i] = SDL_CreateTextureFromSurface(renderer, spriteSurface[i]);
         SDL_FreeSurface(spriteSurface[i]);
+
+        sprintf(filename, "../assets/monster/idle/monster_idle00%d.png", i);
+        monsterIDLESurface[i] = IMG_Load(filename);
+        monsterIDLETexture[i] = SDL_CreateTextureFromSurface(renderer, monsterIDLESurface[i]);
+        SDL_FreeSurface(monsterIDLESurface[i]);
+
+
+        sprintf(filename, "../assets/monster/run/monster_run00%d.png", i);
+        monsterRUNSurface[i] = IMG_Load(filename);
+        monsterRUNTexture[i] = SDL_CreateTextureFromSurface(renderer, monsterRUNSurface[i]);
+        SDL_FreeSurface(monsterRUNSurface[i]);
     }
+
+    monsterRUNSurface[24] = IMG_Load("../assets/monster/run/monster_run0024.png");
+    monsterRUNTexture[24] = SDL_CreateTextureFromSurface(renderer, monsterRUNSurface[24]);
+    SDL_FreeSurface(monsterRUNSurface[24]);
+
 
     pthread_t threadGest;
     pthread_create(&threadGest, NULL, BoucleGestInput, NULL);
